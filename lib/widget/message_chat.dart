@@ -16,10 +16,6 @@ final Message messages;
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 18,),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(messages.id,style: TextStyle( color: Colors.deepPurple,),),
-          ),
           Container(
             padding: EdgeInsets.only(bottom: 32,top: 32,right: 32,left: 16),
             // margin: EdgeInsets.only(top: 16),
@@ -58,10 +54,6 @@ class MessageChatForFriend extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           SizedBox(height: 18,),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(messages.id,style: TextStyle( color: Colors.indigoAccent,),),
-          ),
              Container(
               padding: EdgeInsets.only(bottom: 32,top: 32,right: 32,left: 16),
               // margin: EdgeInsets.only(left: 16,top: 16),
