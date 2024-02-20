@@ -21,10 +21,10 @@ final Function(String)? onChanged;
       },
       onChanged: onChanged,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
         hintText: hintText,
         labelText: lableText,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: Colors.black

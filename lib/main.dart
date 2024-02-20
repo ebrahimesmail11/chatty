@@ -1,9 +1,12 @@
+import 'package:chat_setup_app/controller/chat_cubit/chat_cubit.dart';
+import 'package:chat_setup_app/controller/cubit/auth_cubit.dart';
 import 'package:chat_setup_app/firebase_options.dart';
 import 'package:chat_setup_app/screens/chat_page.dart';
 import 'package:chat_setup_app/screens/login_page.dart';
 import 'package:chat_setup_app/screens/register_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,16 +20,24 @@ class ChatApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes:{
-        LoginPage.id:(context)=>LoginPage(),
-       Register.id:(context)=>Register(),
-        ChatPage.id:(context)=>ChatPage(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+        create:  (context) => AuthCubit(),),
+        BlocProvider(
+          create: (context) => ChatCubit(),),
+      ],
+      child: MaterialApp(
+        routes:{
+          LoginPage.id:(context)=>LoginPage(),
+          RegisterPage.id:(context)=>RegisterPage(),
+          ChatPage.id:(context)=>ChatPage(),
 
-      },
-      initialRoute: LoginPage.id,
-      debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+        },
+        initialRoute: LoginPage.id,
+        debugShowCheckedModeBanner: false,
+        home: LoginPage(),
+      ),
     );
   }
 }

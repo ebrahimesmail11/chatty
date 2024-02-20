@@ -5,16 +5,12 @@ class TextFieldPassword extends StatefulWidget {
     super.key,
     required this.lableText,
     this.onChanged,
-
-
   });
 final String lableText;
-
  final Function(String)? onChanged;
   @override
   State<TextFieldPassword> createState() => _TextFieldPasswordState();
 }
-
 class _TextFieldPasswordState extends State<TextFieldPassword> {
   bool passwordVisable =true;
   @override
@@ -29,10 +25,10 @@ class _TextFieldPasswordState extends State<TextFieldPassword> {
       onChanged: widget.onChanged,
       obscureText: passwordVisable,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
         hintText: "*******",
         labelText: widget.lableText,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: Colors.black

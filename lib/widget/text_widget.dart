@@ -11,7 +11,7 @@ class textWidget extends StatelessWidget {
     return Center(
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.bold,
         ),
