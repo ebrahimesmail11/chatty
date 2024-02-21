@@ -9,8 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../controller/chat_cubit/chat_cubit.dart';
+
 class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+  const RegisterPage({super.key});
 
   static String id = "Register";
 
@@ -26,12 +28,10 @@ class RegisterPage extends StatelessWidget {
         if (state is SignUpLoadingState) {
          const  CircularProgressIndicator();
         } else if (state is SignUpSuccessState) {
-          Navigator.pushNamed(context, ChatPage.id);
+          BlocProvider.of<ChatCubit>(context).getMessage();
           Navigator.pushNamed(context, ChatPage.id, arguments: authCubit.email);
-          // isLoading=false;
         } else if (state is SignUpFailureState) {
           showSnakBar(context, message: "weak-password");
-          // isLoading=false;
         } else if (state is SignUpFailureState) {
           // isLoading=false;
           showSnakBar(context, message: "email already exits");
@@ -80,57 +80,6 @@ class RegisterPage extends StatelessWidget {
                         if (authCubit.signUpFormKey.currentState!.validate()) {
                           await authCubit.signUp();
                         }
-                        // if (formKey.currentState!.validate()) {
-                        //   isloding = true;
-                        //   setState(() {});
-                        //   try {
-                        //     await reigsterUser();
-                        //     showSnackBar(context, 'Successfully Registered');
-                        //
-                        //     Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        //       return ChatScreen(
-                        //         email: email!,
-                        //       );
-                        //     }));
-                        //   } on FirebaseAuthException catch (e) {
-                        //     if (e.code == 'weak-password') {
-                        //       showSnackBar(
-                        //           context, 'The password provided is too weak.');
-                        //     } else if (e.code == 'email-already-in-use') {
-                        //       showSnackBar(context,
-                        //           'The account already exists for that email.');
-                        //     }
-                        //   } catch (e) {
-                        //     showSnackBar(context, 'Error occured');
-                        //   }
-                        //   isloding = false;
-                        //   setState(() {});
-                        // } else {
-                        //   showSnackBar(context, 'Please fill the form correctly');
-                        // }
-                        // if(formKey.currentState!.validate()){
-                        //   isLoading=true;
-                        //   setState(() {
-                        //
-                        //   });
-                        //   try{
-                        //     await registerUser();
-                        //     showSnakBar(context, message: "Successed");
-                        //     Navigator.pushNamed(context, LoginPage.id);
-                        //   }on FirebaseAuthException catch (e){
-                        //     if(e.code=="weak-password"){
-                        //       showSnakBar(context,message: "weak-password");
-                        //     }else if(e.code == "email-already-in-use"){
-                        //       showSnakBar(context, message: "email already exits");
-                        //     }
-                        //   }
-                        //   isLoading=false;
-                        //   setState(() {
-                        //
-                        //   });
-                        // }else{
-                        //
-                        // }
                       },
                     ),
                     SizedBox(height: size.height * 0.08,),

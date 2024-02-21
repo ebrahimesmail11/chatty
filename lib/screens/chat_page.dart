@@ -3,7 +3,6 @@
 import 'package:chat_setup_app/const/constant.dart';
 import 'package:chat_setup_app/controller/chat_cubit/chat_cubit.dart';
 import 'package:chat_setup_app/controller/chat_cubit/chat_cubit_state.dart';
-import 'package:chat_setup_app/model/message.dart';
 import 'package:chat_setup_app/widget/message_chat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +11,7 @@ import '../controller/cubit/auth_cubit.dart';
 
 class ChatPage extends StatelessWidget {
   static String id = "ChatPage";
-List <Message> messageList=[];
+// List <Message> messageList=[];
   TextEditingController controller = TextEditingController();
   ScrollController _scrollController = ScrollController();
 
@@ -47,21 +46,19 @@ List <Message> messageList=[];
       body: Column(
         children: [
           Expanded(
-            child: BlocConsumer<ChatCubit,ChatState>(
-              listener: (context, state) {
-                if(state is ChatSuccessState){
-                  messageList=state.messages;
-                }
-              },
-              builder:(context,state)=> ListView.builder(
-                  reverse: true,
-                  controller: _scrollController,
-                  itemCount: messageList.length,
-                  itemBuilder: (context, index) {
-                     return messageList[index].id == authCubit.email ? MessageChat(
-                       messages: messageList[index],
-                     ) : MessageChatForFriend(messages: messageList[index]);
-                  }),
+            child: BlocBuilder<ChatCubit,ChatState>(
+              builder:(context,state){
+               var messageList= BlocProvider.of<ChatCubit>(context).messageList;
+                return ListView.builder(
+                    reverse: true,
+                    controller: _scrollController,
+                    itemCount: messageList.length,
+                    itemBuilder: (context, index) {
+                      return messageList[index].id == authCubit.email ? MessageChat(
+                        messages: messageList[index],
+                      ) : MessageChatForFriend(messages: messageList[index]);
+                    });
+              }
             ),
           ),
           Padding(
@@ -72,14 +69,6 @@ List <Message> messageList=[];
               onSubmitted:
                   (value) {
                 chatCubit.sendMessage(messages: value, email: authCubit.email.toString());
-                // message
-                //     .add(
-                //     {
-                //       kMessage: value,
-                //       kCreatedAt: DateTime.now(),
-                //       kId: authCubit.email,
-                //     }
-                // );
                 controller.clear();
                 _scrollController.animateTo(
                   0,
@@ -91,13 +80,6 @@ List <Message> messageList=[];
                 suffixIcon: InkWell(
                   onTap: () {
                     chatCubit.sendMessage(messages: controller.text, email: authCubit.email.toString());
-                    // message.add(
-                    //     {
-                    //       kMessage: controller.text,
-                    //       kCreatedAt: DateTime.now(),
-                    //       kId: authCubit.email,
-                    //     }
-                    // );
                     controller.clear();
                     _scrollController.animateTo(
                       0,

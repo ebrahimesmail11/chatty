@@ -1,4 +1,5 @@
 
+import 'package:chat_setup_app/controller/chat_cubit/chat_cubit.dart';
 import 'package:chat_setup_app/controller/cubit/auth_cubit.dart';
 import 'package:chat_setup_app/controller/cubit/auth_cubit_state.dart';
 import 'package:chat_setup_app/helper/show_snak_bar.dart';
@@ -13,12 +14,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   static String id = "LoginPage";
 
 
-  // bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,8 @@ class LoginPage extends StatelessWidget {
         if (state is LogInLoadingState) {
           const CircularProgressIndicator();
         } else if (state is LogInSuccessState) {
-          Navigator.pushNamed(context, ChatPage.id);
+          // Navigator.pushNamed(context, ChatPage.id);
+          BlocProvider.of<ChatCubit>(context).getMessage();
           Navigator.pushNamed(context, ChatPage.id,arguments: authCubit.email);
         } else if (state is LogInFailureState) {
           showSnakBar(
@@ -66,39 +67,14 @@ class LoginPage extends StatelessWidget {
                       authCubit.password = password;
                     }),
                     const SizedBox(height: 32,),
-                    InkWell(
-                      onTap: () {
-
+                    IconWidget(
+                      size: size,
+                      text: "Login",
+                      onTap: () async {
+                        if (authCubit.logInFormKey.currentState!.validate()) {
+                          await authCubit.logIn();
+                        }
                       },
-                      child: IconWidget(
-                        size: size,
-                        text: "Login",
-                        onTap: () async {
-                          if (authCubit.logInFormKey.currentState!.validate()) {
-                            await authCubit.logIn();
-                            // showSnakBar(context, message: "Success");
-                            // Navigator.pushNamed(context, ChatPage.id,
-                            //     arguments: authCubit.email);
-                          }
-                          // if(formKey.currentState!.validate()){
-                          //   isLoadong=true;
-                          //   try{
-                          //     await loginValidiat();
-                          //     showSnakBar(context, message: "Successed");
-                          //     Navigator.pushNamed(context, ChatPage.id,arguments: email);
-                          //   }on FirebaseAuthException catch (e){
-                          //     if(e.code=="user-not-found"){
-                          //       showSnakBar(context,message: "No User found for that email");
-                          //     }else if(e.code == "wrong-password"){
-                          //       showSnakBar(context, message: "Wrong password provided for that user .");
-                          //     }
-                          //   }
-                          //   isLoadong=false;
-                          // }else{
-                          //
-                          // }
-                        },
-                      ),
                     ),
                     const SizedBox(height: 32,),
                     Row(
